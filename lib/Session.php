@@ -41,10 +41,11 @@ class Session{
    header("Location:index.php");
   }
  }
-
+ 
  public static function destroy(){
   session_destroy();
   header("Location:login.php");
  }
+ 
 }
 ?>

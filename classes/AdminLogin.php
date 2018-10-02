@@ -29,10 +29,15 @@ class AdminLogin{
 
         if (empty($admin_email) || empty($admin_pass)) {
         	$msg = '<div class="alert alert-warning" role="alert">
-                  Email and Password must not be Empty!
+                  Field not be Empty!
                  </div>';
         	return $msg;
 
+        }elseif(empty($captcha_code)){
+         $msg = '<div class="alert alert-warning" role="alert">
+                  Captcha Field Must Not be Empty!
+                 </div>';
+          return $msg;
         }elseif(empty($_SESSION['captcha_code'] ) || strcasecmp($_SESSION['captcha_code'], $_POST['captcha_code']) != 0){ 
         $msg = '<div class="alert alert-danger" role="alert">
                   The Validation code does not match!
@@ -44,6 +49,7 @@ class AdminLogin{
                  </div>';
                  return $msg;
         }else{
+           $admin_pass = md5($admin_pass);
            $query = "SELECT * FROM tbl_admin WHERE email = '$admin_email' AND password = '$admin_pass'";
            $result = $this->db->select($query);
            if ($result != false) {
@@ -62,7 +68,7 @@ class AdminLogin{
         	return $msg;
            }
         }
-	}
+	   }
 
  
 }

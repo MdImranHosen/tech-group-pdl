@@ -32,14 +32,31 @@ class Registration{
           $level     = mysqli_real_escape_string($this->db->link, $level);
           $email     = filter_var($email, FILTER_SANITIZE_EMAIL);
 
+
+/*    function limit_text($text, $limit) {
+      if (str_word_count($text, 0) > $limit) {
+          $words = str_word_count($text, 2);
+          $pos = array_keys($words);
+          $text = substr($text, 0, $pos[$limit]) . '...';
+      }
+      return $text;
+    }
+
+  echo limit_text('Hello here is a long sentence blah blah blah blah blah hahahaha haha haaaaaa', 5);*/
+
      if (empty($name) || empty($email) || empty($password) || empty($cpassword)) {
           	 $msg = '<div class="alert alert-warning" role="alert">
                   Field must not be Empty!
                  </div>';
               return $msg;
-          }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+          }/*elseif(substr($name, 0, stripos($name, ' ', 40) !== false)){
+           $msg = '<div class="alert alert-warning" role="alert">
+                  This Name is Too Large!
+                 </div>';
+              return $msg;
+          }*/elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
              $msg = '<div class="alert alert-danger" role="alert">
-                  Invalidat Email!
+                  Invalid email address!
                  </div>';
               return $msg;
           }elseif($password !== $cpassword){
@@ -51,7 +68,7 @@ class Registration{
                
                $mailquery = "SELECT * FROM tbl_admin WHERE email = '$email' LIMIT 1";
                $mailcheck = $this->db->select($mailquery);
-             if ($mailcheck !=false) {
+             if ($mailcheck != false) {
 	              $msg = '<div class="alert alert-danger" role="alert">
                   This Email Already Exist!
                  </div>';
